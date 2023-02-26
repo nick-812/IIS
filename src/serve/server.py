@@ -38,8 +38,8 @@ class podatki(BaseModel):
 @app.on_event("startup")
 def load():
     global reg 
-    reg = ld(open('/home/runner/work/IIS/IIS/models/model.pkl','rb'))     
-    #reg = ld(open('../models/model.pkl','rb'))          
+    #reg = ld(open('/home/runner/work/IIS/IIS/models/model.pkl','rb'))     
+    reg = ld(open('../models/model.pkl','rb'))          
 
 
 
