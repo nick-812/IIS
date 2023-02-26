@@ -10,6 +10,10 @@ from pydantic import BaseModel
 from typing import List
 
 
+import sys
+print(sys.path)
+
+
 app = FastAPI()
 
 
