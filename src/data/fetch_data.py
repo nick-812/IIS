@@ -34,7 +34,6 @@ for user in test:
         df1=pd.concat([df1, df4], axis=0)
 
 
-
 df = df1
 
 df = df.drop(['nadm_visina'], axis=1)
@@ -57,5 +56,7 @@ df['no2'] = pd.to_numeric(df['no2'], errors='coerce')
 df['so2'] = pd.to_numeric(df['so2'], errors='coerce')
 
 df = df.fillna(df.mean())
+
+print(df)
 
 df.to_csv('../data/processed/obdelani.csv')

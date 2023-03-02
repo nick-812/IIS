@@ -2,6 +2,7 @@ import numpy as np
 
 
 from fastapi import FastAPI
+from fastapi.testclient import TestClient
 import uvicorn
 
 from pickle import load as ld
@@ -15,7 +16,7 @@ print(sys.path)
 
 
 app = FastAPI()
-
+reg = ld(open('models/model.pkl','rb'))
 
 class Item(BaseModel):
     name: float
@@ -39,7 +40,7 @@ class podatki(BaseModel):
 def load():
     global reg 
     #reg = ld(open('/home/runner/work/IIS/IIS/models/model.pkl','rb'))     
-    reg = ld(open('../models/model.pkl','rb'))          
+    reg = ld(open('models/model.pkl','rb'))          
 
 
 
@@ -110,6 +111,16 @@ async def predict(
     print(y_out)
 
     return {"prediction": y_out[0]}
+
+
+client = TestClient(app)
+
+def test_read_main():
+    testdata = {"pm25":27.0,"o3":90.0,"benzen":0.5,"co":0.2,"no2":9.0,"so2":2.557347,"mesto":"Hrastnik"}
+    response = client.post('/air/predict', json=testdata)
+    assert response.status_code == 200
+    assert "prediction" in response.text
+
 
 
 if __name__ == '__main__':
