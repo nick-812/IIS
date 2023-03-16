@@ -50,8 +50,8 @@ jobs:
     - name: stage changed files
       run: git add .
     - name: commit changed files
-      run: git config --global user.email "nik.jeromel@student.um.si" && git config --global user.name "nick-812" && git commit -m "Auto updating neobdelani"
+      run: git remote set-url origin git@github.com:nick-812/IIS.git && git config --global user.email "nik.jeromel@student.um.si" && git config --global user.name "nick-812" && git commit -m "Auto updating neobdelani"
     - name: fetch from master
-      run: git fetch origin master
+      run: git remote set-url origin git@github.com:nick-812/IIS.git && git fetch origin master
     - name: push code to master
-      run: git push origin HEAD:master
+      run: git remote set-url origin git@github.com:nick-812/IIS.git && git push origin HEAD:master
