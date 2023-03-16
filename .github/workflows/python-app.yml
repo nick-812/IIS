@@ -40,7 +40,6 @@ jobs:
     - name: Update data
       run: |
         poetry install && poetry run python3 src/data/fetch_data.py
-    #- uses: stefanzweifel/git-auto-commit-action@v4
     - name: Test with pytest
       run: |
         poetry install && poetry run pytest src/serve/server.py
