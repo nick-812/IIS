@@ -16,6 +16,7 @@ ura = StringVar()
  
 def showWeather():
 
+    #df = pd.read_csv("obdelani.csv", sep=",", header=0)
     df = pd.read_csv("data/processed/obdelani.csv", sep=",", header=0)
     df = df.drop(['pm10'], axis=1)
     df = df.drop(['Unnamed: 0'], axis=1)

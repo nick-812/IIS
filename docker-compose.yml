@@ -1,0 +1,25 @@
+version: '3'
+services:
+    ui:
+        image: weatherapp
+        container_name: weatherappcont
+        tty: true
+        stdin_open: true
+        depends_on:
+            - streznik
+        networks:
+            - weathernet
+    streznik:
+        tty: true
+        stdin_open: true
+        image: server
+        container_name: servercont
+        expose: 
+            - 8085
+        ports:
+            - 8085:8085
+        networks:
+            - weathernet
+networks:
+    bazanet:
+        driver: bridge

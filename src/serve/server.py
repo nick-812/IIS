@@ -16,6 +16,7 @@ print(sys.path)
 
 
 app = FastAPI()
+#reg = ld(open('model.pkl','rb'))
 reg = ld(open('models/model.pkl','rb'))
 
 class Item(BaseModel):
@@ -46,9 +47,9 @@ class podatki(BaseModel):
 
 @app.on_event("startup")
 def load():
-    global reg 
-    #reg = ld(open('/home/runner/work/IIS/IIS/models/model.pkl','rb'))     
-    reg = ld(open('models/model.pkl','rb'))          
+    global reg   
+    #reg = ld(open('model.pkl','rb'))
+    reg = ld(open('models/model.pkl','rb'))
 
 
 
