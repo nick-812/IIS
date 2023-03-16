@@ -43,14 +43,13 @@ jobs:
     - name: Test with pytest
       run: |
         poetry install && poetry run pytest src/serve/server.py
+    
+    - name: Commit and push changes
+      run: |
+        git config --global user.name "nick-812"
+        git config --global user.email "nik.jeromel@student.um.si"
 
-    - id: commit_files
-      name: Commit files  
-      run:
-        git config --local user.name nick-812
-        git config --local user.email "nik.jeromel@student.um.si"
-        if [ ! git diff --exit-code ] ; then
-            git add .
-            git commit -am "GH Action Files added $(date)"
-            git push -f origin main
-        fi
+        git add -A
+        git commit -m "commit message"
+        git push
+
