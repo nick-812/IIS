@@ -46,11 +46,11 @@ jobs:
     
     - name: Commit and push changes
       run: |
-        #git config --global user.name "nick-812"
-        #git config --global user.email "nik.jeromel@student.um.si"
+        git config --global user.name "nick-812"
+        git config --global user.email "nik.jeromel@student.um.si"
 
         git add -A
         git commit -m "commit message"
-        git push
+        git push origin main
 
-#k
+
