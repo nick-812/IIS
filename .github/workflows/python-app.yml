@@ -43,3 +43,13 @@ jobs:
     - name: Test with pytest
       run: |
         poetry install && poetry run pytest src/serve/server.py
+    - name: check for changes
+      run: git status
+    - name: stage changed files
+      run: git add .
+    - name: commit changed files
+      run: git commit -m "Auto updating neobdelani"
+    - name: fetch from master
+      run: git fetch origin master
+    - name: push code to master
+      run: git push origin HEAD:master
