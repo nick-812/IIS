@@ -44,13 +44,13 @@ jobs:
       run: |
         poetry install && poetry run pytest src/serve/server.py
 
-    - name: Commit files # transfer the new html files back into the repository
-      run: |
-        git config --local user.name "nick-812"
-        git add .
-        git commit -m "Updating the repository"
-    - name: Push changes # push the output folder to your repo
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.TOKEN }}
-        force: true
+    - id: commit_files
+      name: Commit files  
+      run:
+        git config --local user.name nick-812
+        git config --local user.email "nik.jeromel@student.um.si"
+        if ! git diff --exit-code; then
+            git add .
+            git commit -am "GH Action Files added $(date)"
+            git push -f origin main
+        fi
