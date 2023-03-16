@@ -5,6 +5,8 @@ from fastapi import FastAPI
 from fastapi.testclient import TestClient
 import uvicorn
 
+import json
+
 from pickle import load as ld
 
 from pydantic import BaseModel
@@ -95,6 +97,10 @@ def test_read_main():
     testdata = {"pm25":38,"o3":3.0,"co":0.8,"no2":62.0,"temp":0.4,"dwpt":-2.3,"rhum":82,"prcp":0,"snow":0,"wdir":222,"wspd":3.6,"wpgt":0,"pres":1016,"tsun":0,"coco":1}
     response = client.post('/air/predict', json=testdata)
     assert response.status_code == 200
+    resp_json = json.loads(response.text)
+    predikcija = int(resp_json["prediction"])
+    assert predikcija > 30
+    assert predikcija < 50
     assert "prediction" in response.text
 
 
