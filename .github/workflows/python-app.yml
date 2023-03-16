@@ -50,7 +50,7 @@ jobs:
     - name: stage changed files
       run: git add .
     - name: commit changed files
-      run: git commit -m "Auto updating neobdelani"
+      run: git config --global user.email "nik.jeromel@student.um.si" && git config --global user.name "nick-812" && git commit -m "Auto updating neobdelani"
     - name: fetch from master
       run: git fetch origin master
     - name: push code to master
