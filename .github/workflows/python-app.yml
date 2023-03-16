@@ -53,4 +53,10 @@ jobs:
         git commit -m "commit message"
         git push origin main
 
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.TOKEN }}
+        branch: main
+
 
