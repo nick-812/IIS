@@ -52,5 +52,5 @@ jobs:
     - name: Push changes # push the output folder to your repo
       uses: ad-m/github-push-action@master
       with:
-        github_token: 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
+        github_token: ${{ secrets.TOKEN }}
         force: true
