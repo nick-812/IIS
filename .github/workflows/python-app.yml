@@ -12,7 +12,8 @@ on:
     - cron:  '1 0 * * *'
 
 permissions:
-  contents: read
+  contents: write
+  #contents: read
 
 jobs:
   build:
@@ -21,6 +22,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    #- name: Check out this repo
+     # uses: actions/checkout@v2
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
@@ -51,7 +54,7 @@ jobs:
 
         git add -A
         git commit -m "commit message"
-        git push origin main
+        #git push origin main
 
     - name: Push changes
       uses: ad-m/github-push-action@master
