@@ -47,4 +47,89 @@ jobs:
       run: |
         poetry install && poetry run dvc push -r origin
 
+  fetch_air_data:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install poetry
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Update data
+      run: |
+        poetry install && poetry run python3 src/data/fetch_data.py
+
+  fetch_weather_data:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install poetry
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Update data
+      run: |
+        poetry install && poetry run python3 src/data/fetch_weather_data.py
+
+  process_air_data:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install poetry
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Update data
+      run: |
+        poetry install && poetry run python3 src/data/process_data.py
+
+  process_weather_data:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install poetry
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Update data
+      run: |
+        poetry install && poetry run python3 src/data/process_weather_data.py
+
+  
+  merge_data:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install poetry
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Update data
+      run: |
+        poetry install && poetry run python3 src/data/merge.py
 
