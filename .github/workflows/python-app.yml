@@ -43,18 +43,8 @@ jobs:
       run: |
         poetry install && poetry run pytest src/serve/server.py
     
-    - name: Commit and push changes
+    - name: Push dvc
       run: |
-        git config --global user.name "nick-812"
-        git config --global user.email "nik.jeromel@student.um.si"
-
-        git add -A
-        git commit -m "commit message"
-
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: main
+        poetry install && dvc push
 
 
