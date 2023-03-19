@@ -1,6 +1,8 @@
 import requests
 from datetime import date
 
+import pytest
+
 
 
 url = "https://meteostat.p.rapidapi.com/stations/hourly"
@@ -19,4 +21,7 @@ print(response.text)
 
 with open('data/raw/weather/neobdelani.json', 'w') as f:
     f.write(response.text)
+
+def test_api():
+    assert "meta" in response.text
 
