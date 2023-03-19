@@ -45,6 +45,6 @@ jobs:
     
     - name: Push dvc
       run: |
-        poetry install && dvc push
+        poetry install && poetry run dvc push
 
 
