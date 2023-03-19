@@ -59,31 +59,7 @@ df = df.fillna(df.mean())
 df = df.sort_values(by='datum_od')
 df1 = df.drop_duplicates()
 
+df1.to_csv('data/processed/obdelaniair.csv')
+
 print(df1)
-
-
-
-
-
-weatherfile = open('data/raw/weather/neobdelani.json')
-podatki = json.load(weatherfile)
-
-df = pd.DataFrame.from_records(podatki['data'])
-
-df['snow'] = pd.to_numeric(df['snow'], errors='coerce')
-df['wpgt'] = pd.to_numeric(df['wpgt'], errors='coerce')
-df['tsun'] = pd.to_numeric(df['tsun'], errors='coerce')
-
-df=df.replace(np.nan,0)
-
-df["time"] = pd.to_datetime(df["time"])
-
-df = df.rename(columns={"time": "date"})
-df1 = df1.rename(columns={"datum_od": "date"})
-
-dfout = pd.merge(df1, df, how="inner")
-
-dfout.to_csv('data/processed/obdelani.csv')
-
-print(dfout)
 
