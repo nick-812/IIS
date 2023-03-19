@@ -44,12 +44,12 @@ df = df[df['merilno_mesto'] == "LJ Bežigrad"]
 df = df.drop(['merilno_mesto'], axis=1)
 df = df.drop(['benzen'], axis=1)
 df = df.drop(['so2'], axis=1)
+df = df.drop(['pm2.5'], axis=1)
+df = df.drop(['o3'], axis=1)
+df = df.drop(['co'], axis=1)
+df = df.drop(['no2'], axis=1)
 
-df['pm2.5'] = pd.to_numeric(df['pm2.5'], errors='coerce')
-df['o3'] = pd.to_numeric(df['o3'], errors='coerce')
 df['pm10'] = pd.to_numeric(df['pm10'], errors='coerce')
-df['co'] = pd.to_numeric(df['co'], errors='coerce')
-df['no2'] = pd.to_numeric(df['no2'], errors='coerce')
 
 df["datum_od"] = pd.to_datetime(df["datum_od"])
 

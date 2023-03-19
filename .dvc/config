@@ -4,3 +4,4 @@
     url = gdrive://16Ws1YtLUvamGKyovL3wHJBlDJutndhY4
 ['remote "origin"']
     url = https://dagshub.com/nick-812/IIS.dvc
+    read_timeout = 0

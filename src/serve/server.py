@@ -29,10 +29,6 @@ class ItemList(BaseModel):
 
 
 class podatki(BaseModel):
-    pm25: float
-    o3: float
-    co: float
-    no2: float
     temp: float
     dwpt: float
     rhum: float
@@ -61,24 +57,20 @@ async def predict(
     vhod:podatki
 ):
     
-    vnos = np.zeros([15], dtype=float)
+    vnos = np.zeros([11], dtype=float)
 
 
-    vnos[0] = vhod.pm25
-    vnos[1] = vhod.o3
-    vnos[2] = vhod.co
-    vnos[3] = vhod.no2
-    vnos[4] = vhod.temp
-    vnos[5] = vhod.dwpt
-    vnos[6] = vhod.rhum
-    vnos[7] = vhod.prcp
-    vnos[8] = vhod.snow
-    vnos[9] = vhod.wdir
-    vnos[10] = vhod.wspd
-    vnos[11] = vhod.wpgt
-    vnos[12] = vhod.pres
-    vnos[13] = vhod.tsun
-    vnos[14] = vhod.coco
+    vnos[0] = vhod.temp
+    vnos[1] = vhod.dwpt
+    vnos[2] = vhod.rhum
+    vnos[3] = vhod.prcp
+    vnos[4] = vhod.snow
+    vnos[5] = vhod.wdir
+    vnos[6] = vhod.wspd
+    vnos[7] = vhod.wpgt
+    vnos[8] = vhod.pres
+    vnos[9] = vhod.tsun
+    vnos[10] = vhod.coco
     
 
     vnos = np.reshape(vnos, (1,vnos.shape[0]))
@@ -94,7 +86,7 @@ async def predict(
 client = TestClient(app)
 
 def test_read_main():
-    testdata = {"pm25":38,"o3":3.0,"co":0.8,"no2":62.0,"temp":0.4,"dwpt":-2.3,"rhum":82,"prcp":0,"snow":0,"wdir":222,"wspd":3.6,"wpgt":0,"pres":1016,"tsun":0,"coco":1}
+    testdata = {"temp":0.4,"dwpt":-2.3,"rhum":82,"prcp":0,"snow":0,"wdir":222,"wspd":3.6,"wpgt":0,"pres":1016,"tsun":0,"coco":1}
     response = client.post('/air/predict', json=testdata)
     assert response.status_code == 200
     resp_json = json.loads(response.text)

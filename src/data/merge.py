@@ -10,6 +10,9 @@ df1 = df1.rename(columns={"datum_od": "date"})
 
 dfout = df.merge(df1, how='inner', on='date')
 
+dfout = dfout.drop(['Unnamed: 0_x'], axis=1)
+dfout = dfout.drop(['Unnamed: 0_y'], axis=1)
+
 print(dfout)
 
 dfout.to_csv('data/processed/obdelani.csv')
