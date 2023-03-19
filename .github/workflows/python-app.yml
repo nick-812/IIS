@@ -36,16 +36,9 @@ jobs:
     #    flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
     #    # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
     #    flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Update data
-      run: |
-        poetry install && poetry run python3 src/data/fetch_data.py
     - name: Test with pytest
       run: |
         poetry install && poetry run pytest src/serve/server.py
-    
-    - name: Push dvc
-      run: |
-        poetry install && poetry run dvc push -r storage
 
   fetch_air_data:
     runs-on: ubuntu-latest
@@ -62,7 +55,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Update data
       run: |
-        poetry install && poetry run python3 src/data/fetch_data.py && poetry run dvc push -r storage
+        poetry install && poetry run python3 src/data/fetch_data.py && poetry run dvc push -r origin
 
   fetch_weather_data:
     runs-on: ubuntu-latest
@@ -79,7 +72,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Update data
       run: |
-        poetry install && poetry run python3 src/data/fetch_weather_data.py && poetry run dvc push -r storage
+        poetry install && poetry run python3 src/data/fetch_weather_data.py && poetry run dvc push -r origin
 
   process_air_data:
     runs-on: ubuntu-latest
@@ -96,7 +89,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Update data
       run: |
-        poetry install && poetry run dvc pull -r storage && poetry run python3 src/data/process_data.py
+        poetry install && poetry run dvc pull -r origin && poetry run python3 src/data/process_data.py && poetry run dvc push -r origin 
 
   process_weather_data:
     runs-on: ubuntu-latest
@@ -113,7 +106,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Update data
       run: |
-        poetry install && poetry run dvc pull -r storage && poetry run python3 src/data/process_weather_data.py
+        poetry install && poetry run dvc pull -r origin && poetry run python3 src/data/process_weather_data.py && poetry run dvc push -r origin 
 
   
   merge_data:
@@ -131,5 +124,5 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Update data
       run: |
-        poetry install && poetry run dvc pull -r storage && poetry run python3 src/data/merge.py
+        poetry install && poetry run dvc pull -r origin && poetry run python3 src/data/merge.py && poetry run dvc push -r origin 
 
