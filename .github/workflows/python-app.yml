@@ -53,6 +53,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install poetry
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Test with pytest
+      run: |
+        poetry install && poetry run pytest src/data/fetch_data.py
     - name: Update data
       run: |
         poetry install && poetry run python3 src/data/fetch_data.py && poetry run dvc push -r origin
@@ -70,6 +73,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install poetry
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Test with pytest
+      run: |
+        poetry install && poetry run pytest src/data/fetch_weather_data.py
     - name: Update data
       run: |
         poetry install && poetry run python3 src/data/fetch_weather_data.py && poetry run dvc push -r origin
