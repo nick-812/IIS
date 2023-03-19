@@ -17,6 +17,7 @@ scikit-learn = "^1.2.1"
 pandas = "^1.5.3"
 httpx = "^0.23.3"
 dvc = "^2.50.0"
+dvc-gdrive = "^2.19.1"
 
 
 [build-system]

@@ -113,7 +113,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Update data
       run: |
-        poetry install && poetry run dvc pull && poetry run python3 src/data/process_weather_data.py
+        poetry install && poetry run dvc pull -r origin && poetry run python3 src/data/process_weather_data.py
 
   
   merge_data:
@@ -131,5 +131,5 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Update data
       run: |
-        poetry install && poetry run dvc pull && poetry run python3 src/data/merge.py
+        poetry install && poetry run dvc pull -r origin && poetry run python3 src/data/merge.py
 

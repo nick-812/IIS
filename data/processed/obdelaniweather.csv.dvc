@@ -1,0 +1,4 @@
+outs:
+- md5: fd815f340e78d0692f41cc94359a8315
+  size: 48857
+  path: obdelaniweather.csv
