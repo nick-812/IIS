@@ -41,6 +41,7 @@ jobs:
         poetry install && poetry run pytest src/serve/server.py
 
   fetch_air_data:
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -61,6 +62,7 @@ jobs:
         poetry install && poetry run python3 src/data/fetch_data.py && poetry run dvc push -r origin
 
   fetch_weather_data:
+    needs: fetch_air_data
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -81,6 +83,7 @@ jobs:
         poetry install && poetry run python3 src/data/fetch_weather_data.py && poetry run dvc push -r origin
 
   process_air_data:
+    needs: fetch_weather_data
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -98,6 +101,7 @@ jobs:
         poetry install && poetry run dvc pull -r origin && poetry run python3 src/data/process_data.py && poetry run dvc push -r origin 
 
   process_weather_data:
+    needs: process_air_data
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -116,6 +120,7 @@ jobs:
 
   
   merge_data:
+    needs: process_weather_data
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
