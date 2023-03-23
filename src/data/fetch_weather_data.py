@@ -1,13 +1,13 @@
 import requests
 from datetime import date
-
+import datetime
 import pytest
 
 
 
 url = "https://meteostat.p.rapidapi.com/stations/hourly"
 
-querystring = {"station":"14015","start":"2023-02-20","end":str(date.today()),"tz":"Europe/Berlin"}
+querystring = {"station":"14015","start":str(date.today() - datetime.timedelta(days=30)),"end":str(date.today()),"tz":"Europe/Berlin"}
 
 headers = {
 	"X-RapidAPI-Key": "8b10ab09bbmshc60e103331db811p1d4863jsna06aab62b046",

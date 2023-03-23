@@ -17,43 +17,21 @@ ura = StringVar()
 def showWeather():
 
     #df = pd.read_csv("obdelani.csv", sep=",", header=0)
-    df = pd.read_csv("data/processed/obdelani.csv", sep=",", header=0)
-    df = df.drop(['pm10'], axis=1)
+    df = pd.read_csv("data/processed/futureweather.csv", sep=",", header=0)
     df = df.drop(['Unnamed: 0'], axis=1)
 
     datum_izb=datum.get()+" "+ura.get()+":00:00"
 
     df = df.loc[df['date'] == datum_izb]
 
+    df = df.drop(['date'], axis=1)
+    df = df.loc[(df!=0).any(axis=1)]
+
+    print(df)
 
     if(len(df.index)==1):
 
-        df = df.drop(['date'], axis=1)
-
         zadnji = df.iloc[-1].to_dict()
-
-        zadnji["pm25"] = zadnji["pm2.5"]
-        del zadnji["pm2.5"]
-
-        tfield1.delete("1.0", "end")   #to clear the text field for every new output
-        tfield1.tag_configure("tag_name", justify='center')
-        tfield1.insert(INSERT, zadnji["pm25"])   #to insert or send value in our Text Field to display output
-        tfield1.tag_add("tag_name", "1.0", "end")
-
-        tfield2.delete("1.0", "end")   #to clear the text field for every new output
-        tfield2.tag_configure("tag_name", justify='center')
-        tfield2.insert(INSERT, zadnji["o3"])   #to insert or send value in our Text Field to display output
-        tfield2.tag_add("tag_name", "1.0", "end")
-
-        tfield3.delete("1.0", "end")   #to clear the text field for every new output
-        tfield3.tag_configure("tag_name", justify='center')
-        tfield3.insert(INSERT, zadnji["co"])   #to insert or send value in our Text Field to display output
-        tfield3.tag_add("tag_name", "1.0", "end")
-
-        tfield4.delete("1.0", "end")   #to clear the text field for every new output
-        tfield4.tag_configure("tag_name", justify='center')
-        tfield4.insert(INSERT, zadnji["no2"])   #to insert or send value in our Text Field to display output
-        tfield4.tag_add("tag_name", "1.0", "end")
 
         tfield5.delete("1.0", "end")   #to clear the text field for every new output
         tfield5.tag_configure("tag_name", justify='center')
@@ -129,10 +107,6 @@ def showWeather():
         tfield28.tag_add("tag_name", "1.0", "end")
     
     else:
-        tfield1.delete("1.0", "end")
-        tfield2.delete("1.0", "end")
-        tfield3.delete("1.0", "end")
-        tfield4.delete("1.0", "end")
         tfield5.delete("1.0", "end")
         tfield6.delete("1.0", "end")
         tfield7.delete("1.0", "end")
@@ -161,10 +135,10 @@ izbiraU= Label(frame3, text = 'Ura (HH):', font = 'Arial 14').grid(row=0,  colum
 
 inp_datum = Entry(frame3, textvariable = datum,  width = 24, font='Arial 14 bold')
 inp_datum.grid(row=1,  column=0,  padx=5,  pady=5)
-inp_datum.insert(END, '2023-03-03')
+inp_datum.insert(END, '2023-03-26')
 inp_ura = Entry(frame3, textvariable = ura,  width = 24, font='Arial 14 bold')
 inp_ura.grid(row=1,  column=1,  padx=5,  pady=5) 
-inp_ura.insert(END, '14')
+inp_ura.insert(END, '20')
 
  
 Button(root, command = showWeather, text = "Pridobi podatke", font="Arial 12 bold", bg='lightblue', fg='black', activebackground="teal", padx=5, pady=5 ).pack(pady= 20)
@@ -179,10 +153,6 @@ frame2  =  Frame(root,  width=600,  height=  400,  bg='dark green', pady=10)
 frame2.pack()
 
  
-info25 = Label(frame, text = "PM 2.5", font = 'arial 12 bold').grid(row=0,  column=0,  padx=5,  pady=5)
-infoO3 = Label(frame, text = "O3", font = 'arial 12 bold').grid(row=0,  column=1,  padx=5,  pady=5)
-infoCO = Label(frame, text = "CO", font = 'arial 12 bold').grid(row=0,  column=2,  padx=5,  pady=5)
-infoNO2 = Label(frame, text = "NO2", font = 'arial 12 bold').grid(row=0,  column=3,  padx=5,  pady=5)
 infoT = Label(frame, text = "Temp", font = 'arial 12 bold').grid(row=0,  column=4,  padx=5,  pady=5)
 infoDWPT = Label(frame, text = "DWPT", font = 'arial 12 bold').grid(row=0,  column=5,  padx=5,  pady=5)
 infoRHUM = Label(frame, text = "RHUM", font = 'arial 12 bold').grid(row=0,  column=6,  padx=5,  pady=5)
@@ -199,14 +169,6 @@ info10 = Label(frame2, text = "PM 10", font = 'arial 12 bold', fg='dark red').gr
 
 print(frame.winfo_width)
  
-tfield1 = Text(frame, width=10, height=2)
-tfield1.grid(row=1,  column=0,  padx=5,  pady=5)
-tfield2 = Text(frame, width=10, height=2)
-tfield2.grid(row=1,  column=1,  padx=5,  pady=5)
-tfield3 = Text(frame, width=10, height=2)
-tfield3.grid(row=1,  column=2,  padx=5,  pady=5)
-tfield4 = Text(frame, width=10, height=2)
-tfield4.grid(row=1,  column=3,  padx=5,  pady=5)
 tfield5 = Text(frame, width=10, height=2)
 tfield5.grid(row=1,  column=4,  padx=5,  pady=5)
 tfield6 = Text(frame, width=10, height=2)
