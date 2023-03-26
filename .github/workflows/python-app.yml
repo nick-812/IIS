@@ -142,7 +142,7 @@ jobs:
         git add -A
         git commit -m "commit message"
     - name: Push changes
-        uses: ad-m/gltnuo-push-action@master
+        uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets. GITHUB_TOKEN }}
           branch: main
@@ -212,7 +212,7 @@ jobs:
         git add -A
         git commit -m "commit message"
     - name: Push changes
-        uses: ad-m/gltnuo-push-action@master
+        uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets. GITHUB_TOKEN }}
           branch: main
