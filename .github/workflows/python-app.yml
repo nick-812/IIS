@@ -137,6 +137,7 @@ jobs:
       run: |
         poetry install && poetry run dvc pull -r origin && poetry run python3 src/data/merge.py && poetry run dvc push -r origin
     - name: commit and push changes
+      run: |
         git config --global user.name "nick-812" 
         git config --global user.email "nik.jeromel@student.um.si"
         git add -A
@@ -144,7 +145,7 @@ jobs:
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
-        github_token: ${{ secrets. GITHUB_TOKEN }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: main
 
   validate:
@@ -207,6 +208,7 @@ jobs:
         poetry install 
         poetry run python src/data/train_test_split.py
     - name: commit and push changes
+      run: |
         git config --global user.name "nick-812" 
         git config --global user.email "nik.jeromel@student.um.si"
         git add -A
