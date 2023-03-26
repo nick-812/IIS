@@ -202,6 +202,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Current data
       run: |
+        git pull
         cat data/processed/current_data.csv > data/processed/reference_data.csv
     - name: Split data
       run: |
