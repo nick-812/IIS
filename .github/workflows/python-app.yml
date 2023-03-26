@@ -96,7 +96,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install poetry
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Update data
+    - name: Process data
       run: |
         poetry install && poetry run dvc pull -r origin && poetry run python3 src/data/process_data.py && poetry run dvc push -r origin 
 
@@ -114,7 +114,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install poetry
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Update data
+    - name: Process data
       run: |
         poetry install && poetry run dvc pull -r origin && poetry run python3 src/data/process_weather_data.py && poetry run dvc push -r origin 
 
@@ -133,9 +133,19 @@ jobs:
         python -m pip install --upgrade pip
         pip install poetry
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Update data
+    - name: Merge data
       run: |
-        poetry install && poetry run dvc pull -r origin && poetry run python3 src/data/merge.py && poetry run dvc push -r origin 
+        poetry install && poetry run dvc pull -r origin && poetry run python3 src/data/merge.py && poetry run dvc push -r origin
+    - name: commit and push changes
+        git config --global user.name "nick-812" 
+        git config --global user.email "nik.jeromel@student.um.si"
+        git add -A
+        git commit -m "commit message"
+    - name: Push changes
+        uses: ad-m/gltnuo-push-action@master
+        with:
+          github_token: ${{ secrets. GITHUB_TOKEN }}
+          branch: main
 
   validate:
     needs: merge_data
@@ -151,7 +161,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install poetry
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Update data
+    - name: Validate data
       run: |
         poetry install 
         poetry run great_expectations --v3-api checkpoint run my_checkpoint
@@ -170,7 +180,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install poetry
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Update data
+    - name: Test data
       run: |
         poetry install 
         poetry run python src/data/test_evidently.py
@@ -189,7 +199,20 @@ jobs:
         python -m pip install --upgrade pip
         pip install poetry
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Update data
+    - name: Current data
+      run: |
+        cat data/processed/current_data.csv > data/processed/reference_data.csv
+    - name: Split data
       run: |
         poetry install 
         poetry run python src/data/train_test_split.py
+    - name: commit and push changes
+        git config --global user.name "nick-812" 
+        git config --global user.email "nik.jeromel@student.um.si"
+        git add -A
+        git commit -m "commit message"
+    - name: Push changes
+        uses: ad-m/gltnuo-push-action@master
+        with:
+          github_token: ${{ secrets. GITHUB_TOKEN }}
+          branch: main
