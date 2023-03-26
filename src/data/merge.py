@@ -16,3 +16,4 @@ dfout = dfout.drop(['Unnamed: 0_y'], axis=1)
 print(dfout)
 
 dfout.to_csv('data/processed/obdelani.csv')
+dfout.to_csv('data/processed/current_data.csv')
