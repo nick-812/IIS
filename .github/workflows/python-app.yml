@@ -197,13 +197,19 @@ jobs:
       run: |
         poetry install 
         poetry run python src/data/train_test_split.py
+    - name: Check if there are any changes
+      id: verify_diff
+      run: |
+        git diff --quiet . || echo "changed=true" >> $GITHUB_OUTPUT
     - name: commit and push changes
+      if: steps.verify_diff.outputs.changed == 'true'
       run: |
         git config --global user.name "nick-812" 
         git config --global user.email "nik.jeromel@student.um.si"
         git add -A
         git commit -m "commit message"
     - name: Push changes
+      if: steps.verify_diff.outputs.changed == 'true'
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -222,6 +228,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install poetry
+        git pull
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Get model
       run: |
@@ -229,13 +236,19 @@ jobs:
         MLFLOW_TRACKING_USERNAME=nick-812
         MLFLOW_TRACKING_PASSWORD=f37e3703f5ec08bb5db0beceeeb610ef344dc6da
         poetry run python src/models/train_model.py
+    - name: Check if there are any changes
+      id: verify_diff
+      run: |
+        git diff --quiet . || echo "changed=true" >> $GITHUB_OUTPUT
     - name: commit and push changes
+      if: steps.verify_diff.outputs.changed == 'true'
       run: |
         git config --global user.name "nick-812" 
         git config --global user.email "nik.jeromel@student.um.si"
         git add -A
         git commit -m "commit message"
     - name: Push changes
+      if: steps.verify_diff.outputs.changed == 'true'
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}

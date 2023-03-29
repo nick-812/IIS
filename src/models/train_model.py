@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from pickle import dump
@@ -10,6 +11,11 @@ import mlflow
 def main():
 
     mlflow.set_tracking_uri("https://dagshub.com/nick-812/IIS.mlflow")
+
+    os.environ['MLFLOW_TRACKING_USERNAME'] = 'nick-812'
+    os.environ['MLFLOW_TRACKING_PASSWORD'] = 'f37e3703f5ec08bb5db0beceeeb610ef344dc6da'
+
+    mlflow.sklearn.autolog()
 
     df = pd.read_csv("data/processed/train.csv", sep=",", header=0)
 
