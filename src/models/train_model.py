@@ -5,9 +5,9 @@ from pickle import dump
 from sklearn.metrics import explained_variance_score
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import mean_absolute_error
-#import mlflow
+import mlflow
 
-#mlflow.set_tracking_uri("https://dagshub.com/nick-812/IIS.mlflow")
+mlflow.set_tracking_uri("https://dagshub.com/nick-812/IIS.mlflow")
 
 df = pd.read_csv("data/processed/train.csv", sep=",", header=0)
 
@@ -15,6 +15,7 @@ df = pd.read_csv("data/processed/train.csv", sep=",", header=0)
 pm10 = df['pm10']
 df = df.drop(['pm10'], axis=1)
 df = df.drop(['Unnamed: 0'], axis=1)
+df = df.drop(['Unnamed: 0.1'], axis=1)
 df = df.drop(['date'], axis=1)
 
 df_test = pd.read_csv("data/processed/test.csv", sep=",", header=0)
@@ -23,6 +24,7 @@ df_test = pd.read_csv("data/processed/test.csv", sep=",", header=0)
 pm10_test = df_test['pm10']
 df_test = df_test.drop(['pm10'], axis=1)
 df_test = df_test.drop(['Unnamed: 0'], axis=1)
+df_test = df_test.drop(['Unnamed: 0.1'], axis=1)
 df_test = df_test.drop(['date'], axis=1)
 
 print(df.columns.tolist())
