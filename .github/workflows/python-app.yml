@@ -232,6 +232,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Get model
       run: |
+        poetry install
         MLFLOW_TRACKING_URI=https://dagshub.com/nick-812/IIS.mlflow
         MLFLOW_TRACKING_USERNAME=nick-812
         MLFLOW_TRACKING_PASSWORD=f37e3703f5ec08bb5db0beceeeb610ef344dc6da
