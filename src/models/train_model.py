@@ -5,8 +5,11 @@ from pickle import dump
 from sklearn.metrics import explained_variance_score
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import mean_absolute_error
+#import mlflow
 
-df = pd.read_csv("data/processed/obdelani.csv", sep=",", header=0)
+#mlflow.set_tracking_uri("https://dagshub.com/nick-812/IIS.mlflow")
+
+df = pd.read_csv("data/processed/train.csv", sep=",", header=0)
 
 #locitev pm10 od ostalih pod
 pm10 = df['pm10']
@@ -14,13 +17,22 @@ df = df.drop(['pm10'], axis=1)
 df = df.drop(['Unnamed: 0'], axis=1)
 df = df.drop(['date'], axis=1)
 
+df_test = pd.read_csv("data/processed/test.csv", sep=",", header=0)
+
+#locitev pm10 od ostalih pod
+pm10_test = df_test['pm10']
+df_test = df_test.drop(['pm10'], axis=1)
+df_test = df_test.drop(['Unnamed: 0'], axis=1)
+df_test = df_test.drop(['date'], axis=1)
+
 print(df.columns.tolist())
 
 #priprava test in train mnozic
-X_train, X_test, y_train, y_test = train_test_split(df.to_numpy(), pm10.to_numpy(), test_size=0.3, random_state=1234)
+X_train = df.to_numpy()
+y_train = pm10.to_numpy()
+X_test = df_test.to_numpy()
+y_test = pm10_test.to_numpy()
 
-print(y_train[0])
-print(X_train[0])
 
 #Linearna regresija nad train podatki
 reg = LinearRegression().fit(X_train, y_train)

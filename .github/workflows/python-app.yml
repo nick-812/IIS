@@ -136,17 +136,6 @@ jobs:
     - name: Merge data
       run: |
         poetry install && poetry run dvc pull -r origin && poetry run python3 src/data/merge.py && poetry run dvc push -r origin
-    - name: commit and push changes
-      run: |
-        git config --global user.name "nick-812" 
-        git config --global user.email "nik.jeromel@student.um.si"
-        git add -A
-        git commit -m "commit message"
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: main
 
   validate:
     needs: merge_data
@@ -208,6 +197,39 @@ jobs:
       run: |
         poetry install 
         poetry run python src/data/train_test_split.py
+    - name: commit and push changes
+      run: |
+        git config --global user.name "nick-812" 
+        git config --global user.email "nik.jeromel@student.um.si"
+        git add -A
+        git commit -m "commit message"
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: main
+
+  train:
+    needs: train_test_split
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install poetry
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Get model
+      run: |
+        git pull
+        MLFLOW_TRACKING_URI=https://dagshub.com/nick-812/IIS.mlflow
+        MLFLOW_TRACKING_USERNAME=nick-812
+        MLFLOW_TRACKING_PASSWORD=f37e3703f5ec08bb5db0beceeeb610ef344dc6da
+        poetry run python src/models/train_model.py
     - name: commit and push changes
       run: |
         git config --global user.name "nick-812" 
