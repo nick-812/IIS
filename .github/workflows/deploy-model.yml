@@ -1,0 +1,60 @@
+
+name: Deploy Model
+
+on:
+  workflow_run:
+    workflows: [Python application]
+    types:
+      - completed
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install poetry
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    #- name: Lint with flake8
+    #  run: |
+    #    # stop the build if there are Python syntax errors or undefined names
+    #    flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+    #    # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+    #    flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Test with pytest
+      run: |
+        poetry install && poetry run pytest src/serve/server.py
+
+  train:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install poetry
+        git pull
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Create model
+      run: |
+        poetry install
+        MLFLOW_TRACKING_URI=https://dagshub.com/nick-812/IIS.mlflow
+        MLFLOW_TRACKING_USERNAME=nick-812
+        MLFLOW_TRACKING_PASSWORD=f37e3703f5ec08bb5db0beceeeb610ef344dc6da
+        poetry run python src/models/train_model.py

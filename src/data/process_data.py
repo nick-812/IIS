@@ -53,7 +53,7 @@ df['pm10'] = pd.to_numeric(df['pm10'], errors='coerce')
 
 df["datum_od"] = pd.to_datetime(df["datum_od"])
 
-df = df.fillna(df.mean())
+#df = df.fillna(df.mean())
 
 
 df = df.sort_values(by='datum_od')

@@ -11,6 +11,8 @@ from pickle import load as ld
 
 from pydantic import BaseModel
 from typing import List
+import mlflow
+import os
 
 
 import sys
@@ -45,9 +47,21 @@ class podatki(BaseModel):
 
 @app.on_event("startup")
 def load():
-    global reg   
-    #reg = ld(open('model.pkl','rb'))
-    reg = ld(open('models/model.pkl','rb'))
+    global reg
+
+    mlflow.set_tracking_uri("https://dagshub.com/nick-812/IIS.mlflow")
+
+    os.environ['MLFLOW_TRACKING_USERNAME'] = 'nick-812'
+    os.environ['MLFLOW_TRACKING_PASSWORD'] = 'f37e3703f5ec08bb5db0beceeeb610ef344dc6da'
+
+    model_name = "my_model_name"
+    model_stage = "Production"
+    model_uri=f"models:/{model_name}/{model_stage}"
+
+
+    reg = mlflow.pyfunc.load_model(
+        model_uri=model_uri
+    )
 
 
 
